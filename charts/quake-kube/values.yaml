@@ -6,7 +6,7 @@ replicaCount: 1
 
 # ref: https://docker.io/criticalstack/quake/
 image:
-  repository: docker.io/criticalstack/quake
+  repository: criticalstack/quake
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
