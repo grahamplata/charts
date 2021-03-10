@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-configmap
+data:
+  config.yaml: |
+    fragLimit: {{ .Values.quakeServer.fragLimit }}
+    timeLimit: {{ .Values.quakeServer.timeLimit }}
+    bot:
+      minPlayers: {{ .Values.quakeServer.bot.minPlayers }}
+    game:
+      motd: {{ .Values.quakeServer.game.motd }}
+      type: {{ .Values.quakeServer.game.type }}
+      forceRespawn: {{ .Values.quakeServer.game.forceRespawn }}
+      inactivity: {{ .Values.quakeServer.game.inactivity }}
+      quadFactor: {{ .Values.quakeServer.game.quadFactor }}
+      weaponRespawn: {{ .Values.quakeServer.game.weaponRespawn }}
+    server:
+      hostname: {{ .Values.quakeServer.server.hostname }}
+      maxClients: {{ .Values.quakeServer.server.maxClients }}
+      password: {{ .Values.quakeServer.server.password }}
+    commands:
+{{ toYaml .Values.quakeServer.maps | indent 6 }}
+    maps:
+{{ toYaml .Values.quakeServer.maps | indent 6 }}

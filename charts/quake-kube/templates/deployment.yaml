@@ -34,24 +34,47 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
+          command:
+          - q3
+          - server
+          - --config=/config/config.yaml
+          - --content-server=http://127.0.0.1:9090
+          - --agree-eula
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
+            - containerPort: {{ .Values.service.clientPort }}
           readinessProbe:
-            httpGet:
-              path: /
-              port: http
+            tcpSocket:
+              port: {{ .Values.service.clientPort }}
+            initialDelaySeconds: 15
+            periodSeconds: 5
+          volumeMounts:
+          - name: {{ .Release.Name }}-configmap
+            mountPath: /config
+          - name: quake3-content
+            mountPath: /assets
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+        - name: content-server
+          command:
+          - q3
+          - content
+          - --seed-content-url=http://content.quakejs.com
+          image: docker.io/criticalstack/quake:latest
+          ports:
+          - containerPort: {{ .Values.service.contentPort }}
+          volumeMounts:
+          - name: quake3-content
+            mountPath: /assets
+          volumes:
+            - name: {{ .Release.Name }}-configmap
+              configMap:
+                name: {{ .Release.Name }}-configmap
+            - name: quake3-content
+              emptyDir: {}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

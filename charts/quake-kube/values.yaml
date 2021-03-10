@@ -26,15 +26,52 @@ serviceAccount:
 
 # Enables prometheus statistics from server
 prometheus:
-  enabled: true
+  enabled: false
 
 podAnnotations: {}
 
 quakeServer:
   # This must be overridden, since we can't accept this for the user.
-  eula: false
+  eula: true
+  # Configuration
+  fragLimit: 25
+  timeLimit: 15m
 
-quakeContent: {}
+  bot:
+    minPlayers: 3
+
+  game:
+    motd: "Welcome to Critical Stack"
+    type: FreeForAll
+    forceRespawn: false
+    inactivity: 10m
+    quadFactor: 3
+    weaponRespawn: 3
+
+  server:
+    hostname: "quake-kube"
+    maxClients: 12
+    password: "strongPassword"
+
+  commands: {}
+  # - addbot sarge 2
+
+  maps:
+  - name: q3dm7
+    type: FreeForAll
+    timeLimit: 10m
+  - name: q3wctf1
+    type: CaptureTheFlag
+    captureLimit: 8
+  # - name: q3dm17
+  #   type: FreeForAll
+  # - name: q3tourney2
+  #   type: Tournament
+  # - name: q3wctf3
+  #   type: CaptureTheFlag
+  #   captureLimit: 8
+  # - name: ztn3tourney1
+  #   type: Tournament
 
 podSecurityContext:
   # Security context settings
