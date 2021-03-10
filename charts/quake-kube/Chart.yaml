@@ -1,5 +1,8 @@
 apiVersion: v2
 name: quake-kube
+maintainers:
+  - name: grahamplata
+    email: graham.plata@gmail.com
 description: A Helm chart for criticalstack's quake-kube project
 type: application
 version: 0.1.0
