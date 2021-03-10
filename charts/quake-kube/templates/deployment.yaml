@@ -16,6 +16,10 @@ spec:
       {{- with .Values.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
+      {{- if .Values.prometheus.enabled }}
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '8080'
+      {{- end }}
       {{- end }}
       labels:
         {{- include "quake-kube.selectorLabels" . | nindent 8 }}
