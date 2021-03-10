@@ -68,6 +68,8 @@ spec:
           volumeMounts:
           - name: quake3-content
             mountPath: /assets
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
       volumes:
         - name: {{ .Release.Name }}-configmap
           configMap:
