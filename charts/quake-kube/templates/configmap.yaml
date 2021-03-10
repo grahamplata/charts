@@ -4,22 +4,36 @@ metadata:
   name: {{ .Release.Name }}-configmap
 data:
   config.yaml: |
-    fragLimit: {{ .Values.quakeServer.fragLimit }}
-    timeLimit: {{ .Values.quakeServer.timeLimit }}
+    fragLimit: 25
+    timeLimit: 15m
     bot:
-      minPlayers: {{ .Values.quakeServer.bot.minPlayers }}
+      minPlayers: 3
     game:
-      motd: {{ .Values.quakeServer.game.motd }}
-      type: {{ .Values.quakeServer.game.type }}
-      forceRespawn: {{ .Values.quakeServer.game.forceRespawn }}
-      inactivity: {{ .Values.quakeServer.game.inactivity }}
-      quadFactor: {{ .Values.quakeServer.game.quadFactor }}
-      weaponRespawn: {{ .Values.quakeServer.game.weaponRespawn }}
+      motd: "Welcome to Critical Stack"
+      type: FreeForAll
+      forceRespawn: false
+      inactivity: 10m
+      quadFactor: 3
+      weaponRespawn: 3
     server:
-      hostname: {{ .Values.quakeServer.server.hostname }}
-      maxClients: {{ .Values.quakeServer.server.maxClients }}
-      password: {{ .Values.quakeServer.server.password }}
+      hostname: "quakekube"
+      maxClients: 12
+      password: "changeme"
     commands:
-{{ toYaml .Values.quakeServer.maps | indent 6 }}
+      - addbot sarge 2
     maps:
-{{ toYaml .Values.quakeServer.maps | indent 6 }}
+    - name: q3dm7
+      type: FreeForAll
+      timeLimit: 10m
+    - name: q3dm17
+      type: FreeForAll
+    - name: q3wctf1
+      type: CaptureTheFlag
+      captureLimit: 8
+    - name: q3tourney2
+      type: Tournament
+    - name: q3wctf3
+      type: CaptureTheFlag
+      captureLimit: 8
+    - name: ztn3tourney1
+      type: Tournament
