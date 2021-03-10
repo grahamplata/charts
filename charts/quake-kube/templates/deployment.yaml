@@ -68,12 +68,12 @@ spec:
           volumeMounts:
           - name: quake3-content
             mountPath: /assets
-          volumes:
-            - name: {{ .Release.Name }}-configmap
-              configMap:
-                name: {{ .Release.Name }}-configmap
-            - name: quake3-content
-              emptyDir: {}
+      volumes:
+        - name: {{ .Release.Name }}-configmap
+          configMap:
+            name: {{ .Release.Name }}-configmap
+        - name: quake3-content
+          emptyDir: {}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

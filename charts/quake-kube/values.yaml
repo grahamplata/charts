@@ -9,7 +9,7 @@ image:
   repository: docker.io/criticalstack/quake
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "v1.0.5"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -55,6 +55,8 @@ quakeServer:
 
   commands: {}
   # - addbot sarge 2
+  # - seta g_inactivity 600
+  # - seta sv_timeout 120
 
   maps:
   - name: q3dm7
