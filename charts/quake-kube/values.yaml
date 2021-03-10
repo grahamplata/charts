@@ -51,8 +51,10 @@ securityContext:
   # runAsUser: 1000
 
 service:
-  type: LoadBalancer
-  port: 8080
+  type: NodePort
+  clientPort: 8080
+  serverPort: 27960
+  contentPort: 9090
 
 ## Configure resource requests and limits
 ## ref: http://kubernetes.io/docs/user-guide/compute-resources/

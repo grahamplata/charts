@@ -7,9 +7,17 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
+    - port: {{ .Values.service.clientPort }}
+      targetPort: 8080
+      nodePort: 30001
+      name: client
+    - port: {{ .Values.service.serverPort }}
+      targetPort: 27960
+      nodePort: 30003
+      name: server
+    - port: {{ .Values.service.contentPort }}
+      targetPort: 9090
+      nodePort: 30002
+      name: content
   selector:
     {{- include "quake-kube.selectorLabels" . | nindent 4 }}
