@@ -2,8 +2,13 @@
 
 # Charts
 
-This repository contains all helm charts I tinker with.
+This repository contains charts I tinker with.
 
-## Charts
+## Add Repo
+
+Add the repo via:
+`helm repo add grahamplata https://grahamplata.github.io/charts`
+
+## Index
 
 - [QuakeKube](/charts/quake-kube/README.md) A Kubernetes-ified version of QuakeJS
