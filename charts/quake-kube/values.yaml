@@ -86,17 +86,6 @@ service:
   serverPort: 27960
   contentPort: 9090
 
-## Configure resource requests and limits
-## ref: http://kubernetes.io/docs/user-guide/compute-resources/
-##
-resources:
-  requests:
-    memory: 256Mi
-    cpu: 250m
-  limits:
-    memory: 256Mi
-    cpu: 300m
-
 nodeSelector: {}
 
 tolerations: []
