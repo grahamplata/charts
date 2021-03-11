@@ -23,7 +23,7 @@ podAnnotations: {}
 
 quakeServer:
   # This must be overridden, since we can't accept this for the user.
-  eula: true
+  eula: false
   # Configuration
   fragLimit: 25
   timeLimit: 15m
