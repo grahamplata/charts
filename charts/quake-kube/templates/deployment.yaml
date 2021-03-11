@@ -1,0 +1,101 @@
+{{- if .Values.quakeServer.eula }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "quake-kube.fullname" . }}
+  labels:
+    {{- include "quake-kube.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "quake-kube.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- if or (.Values.podAnnotations) (.Values.prometheus.enabled) }}
+      annotations:
+        {{- range $key, $value := .Values.podAnnotations }}
+        {{ $key }}: {{ $value | quote }}
+        {{- end }}
+      {{- if .Values.prometheus.enabled }}
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '8080'
+      {{- end }}
+      {{- end }}
+      labels:
+        {{- include "quake-kube.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          command:
+          - q3
+          - server
+          - --config=/config/config.yaml
+          - --content-server=http://127.0.0.1:9090
+          - --agree-eula
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.clientPort }}
+          readinessProbe:
+            tcpSocket:
+              port: {{ .Values.service.clientPort }}
+            initialDelaySeconds: 15
+            periodSeconds: 5
+          volumeMounts:
+          - name: {{ .Release.Name }}-configmap
+            mountPath: /config
+          - name: quake3-content
+            mountPath: /assets
+          resources:
+            requests:
+              memory: 256Mi
+              cpu: 250m
+            limits:
+              memory: 512Mi
+              cpu: 500m
+        - name: content-server
+          command:
+          - q3
+          - content
+          - --seed-content-url=http://content.quakejs.com
+          image: docker.io/criticalstack/quake:latest
+          ports:
+          - containerPort: {{ .Values.service.contentPort }}
+          volumeMounts:
+          - name: quake3-content
+            mountPath: /assets
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: 100m
+            limits:
+              memory: 256Mi
+              cpu: 150m
+      volumes:
+        - name: {{ .Release.Name }}-configmap
+          configMap:
+            name: {{ .Release.Name }}-configmap
+        - name: quake3-content
+          emptyDir: {}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

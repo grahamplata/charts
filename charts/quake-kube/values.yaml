@@ -1,0 +1,93 @@
+# Default values for quake-kube.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+# ref: https://docker.io/criticalstack/quake/
+image:
+  repository: criticalstack/quake
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+# Enables prometheus statistics from server
+prometheus:
+  enabled: false
+
+podAnnotations: {}
+
+quakeServer:
+  # This must be overridden, since we can't accept this for the user.
+  eula: true
+  # Configuration
+  fragLimit: 25
+  timeLimit: 15m
+
+  bot:
+    minPlayers: 3
+
+  game:
+    motd: "Welcome to Critical Stack"
+    type: FreeForAll
+    forceRespawn: false
+    inactivity: 10m
+    quadFactor: 3
+    weaponRespawn: 3
+
+  server:
+    hostname: "quake-kube"
+    maxClients: 12
+    password: "strongPassword"
+
+  commands: {}
+  # - addbot sarge 2
+  # - seta g_inactivity 600
+  # - seta sv_timeout 120
+
+  maps:
+  - name: q3dm7
+    type: FreeForAll
+    timeLimit: 10m
+  - name: q3wctf1
+    type: CaptureTheFlag
+    captureLimit: 8
+  # - name: q3dm17
+  #   type: FreeForAll
+  # - name: q3tourney2
+  #   type: Tournament
+  # - name: q3wctf3
+  #   type: CaptureTheFlag
+  #   captureLimit: 8
+  # - name: ztn3tourney1
+  #   type: Tournament
+
+podSecurityContext:
+  # Security context settings
+  runAsUser: 1000
+  fsGroup: 2000
+
+securityContext:
+  {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: NodePort
+  clientPort: 8080
+  serverPort: 27960
+  contentPort: 9090
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
