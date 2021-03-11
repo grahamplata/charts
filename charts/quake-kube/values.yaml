@@ -21,10 +21,29 @@ prometheus:
 
 podAnnotations: {}
 
+# Probes
+livenessProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 5
+  failureThreshold: 10
+  successThreshold: 1
+  timeoutSeconds: 1
+readinessProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 5
+  failureThreshold: 10
+  successThreshold: 1
+  timeoutSeconds: 1
+startupProbe:
+  enabled: false
+  failureThreshold: 30
+  periodSeconds: 10
+
 quakeServer:
   # This must be overridden, since we can't accept this for the user.
-  eula: true
-  # Configuration
+  eula: false
+
+  # Server Configuration
   fragLimit: 25
   timeLimit: 15m
 
