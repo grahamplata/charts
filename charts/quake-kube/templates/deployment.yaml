@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "quake-kube.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
       {{- include "quake-kube.selectorLabels" . | nindent 6 }}

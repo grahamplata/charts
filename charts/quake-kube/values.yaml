@@ -2,8 +2,6 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1
-
 # ref: https://docker.io/criticalstack/quake/
 image:
   repository: criticalstack/quake
@@ -21,7 +19,7 @@ prometheus:
 
 podAnnotations: {}
 
-# Probes
+# Server and Content Probes
 livenessProbe:
   initialDelaySeconds: 30
   periodSeconds: 5
