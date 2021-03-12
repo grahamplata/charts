@@ -3,6 +3,19 @@ entries:
   quake-kube:
   - apiVersion: v2
     appVersion: v1.0.7
+    created: "2021-03-12T01:08:07.961891729Z"
+    description: A Helm chart for criticalstack's quake-kube project
+    digest: 6589179cd9383c8d69a90848a4aff025ee3adc073b452fefcf24f853cb2b6922
+    maintainers:
+    - email: graham.plata@gmail.com
+      name: grahamplata
+    name: quake-kube
+    type: application
+    urls:
+    - https://github.com/grahamplata/charts/releases/download/quake-kube-0.1.2/quake-kube-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: v1.0.7
     created: "2021-03-11T15:05:49.48102713Z"
     description: A Helm chart for criticalstack's quake-kube project
     digest: 71ec316a1ac6bf11b7b4450ab5efdae451b12e7e4029085bed29c3b6f4dd8051
