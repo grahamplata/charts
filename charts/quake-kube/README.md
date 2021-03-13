@@ -9,7 +9,7 @@ Install
 helm repo add grahamplata https://grahamplata.github.io/chart
 
 # Install
-helm install --set quakeServer.eula=true grahamplata/quake-kube
+helm install quake --set quakeServer.eula=true grahamplata/quake-kube
 ```
 
 > Source https://github.com/criticalstack/quake-kube
