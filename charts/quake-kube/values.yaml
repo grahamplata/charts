@@ -56,15 +56,15 @@ quakeServer:
     - name: q3wctf1
       type: CaptureTheFlag
       captureLimit: 8
-  # - name: q3dm17
-  #   type: FreeForAll
-  # - name: q3tourney2
-  #   type: Tournament
-  # - name: q3wctf3
-  #   type: CaptureTheFlag
-  #   captureLimit: 8
-  # - name: ztn3tourney1
-  #   type: Tournament
+    - name: q3dm17
+      type: FreeForAll
+    - name: q3tourney2
+      type: Tournament
+    - name: q3wctf3
+      type: CaptureTheFlag
+      captureLimit: 8
+    - name: ztn3tourney1
+      type: Tournament
 
 podSecurityContext:
   # Security context settings

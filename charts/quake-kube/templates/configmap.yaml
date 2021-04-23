@@ -23,10 +23,6 @@ data:
       maxClients: {{ .Values.quakeServer.server.maxClients }}
       password: {{ .Values.quakeServer.server.password }}
     commands:
-  {{- with .Values.quakeServer.commands  }}
-  {{ toYaml . | nindent 4 }}
-  {{- end }}
+{{- toYaml .Values.quakeServer.commands | nindent 4 }}
     maps:
-  {{- with .Values.quakeServer.maps  }}
-  {{ toYaml . | nindent 4 }}
-  {{- end }}
+{{- toYaml .Values.quakeServer.maps | nindent 4 }}
