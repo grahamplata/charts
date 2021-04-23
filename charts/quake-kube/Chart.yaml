@@ -5,5 +5,5 @@ maintainers:
     email: graham.plata@gmail.com
 description: A Helm chart for criticalstack's quake-kube project
 type: application
-version: 0.1.4
+version: 0.1.5
 appVersion: "v1.0.7"
