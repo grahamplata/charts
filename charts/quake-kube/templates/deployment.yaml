@@ -19,7 +19,7 @@ spec:
         {{- end }}
       {{- if .Values.prometheus.enabled }}
         prometheus.io/scrape: 'true'
-        prometheus.io/port: '8080'
+        prometheus.io/port: '{{ .Values.service.clientPort }}'
       {{- end }}
       {{- end }}
       labels:
@@ -37,7 +37,7 @@ spec:
           - q3
           - server
           - --config=/config/config.yaml
-          - --content-server=http://127.0.0.1:9090
+          - --content-server=http://localhost:{{ .Values.service.contentPort }}
           - --agree-eula
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
@@ -45,22 +45,6 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.clientPort }}
-          readinessProbe:
-            tcpSocket:
-              port: {{ .Values.service.clientPort }}
-            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
-            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
-            successThreshold: {{ .Values.readinessProbe.successThreshold }}
-            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
-          livenessProbe:
-            tcpSocket:
-              port: {{ .Values.service.clientPort }}
-            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
-            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
-            successThreshold: {{ .Values.livenessProbe.successThreshold }}
-            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
           volumeMounts:
           - name: {{ .Release.Name }}-configmap
             mountPath: /config
@@ -78,25 +62,9 @@ spec:
           - q3
           - content
           - --seed-content-url=http://content.quakejs.com
-          image: docker.io/criticalstack/quake:latest
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           ports:
           - containerPort: {{ .Values.service.contentPort }}
-          readinessProbe:
-            tcpSocket:
-              port: {{ .Values.service.contentPort }}
-            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
-            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
-            successThreshold: {{ .Values.readinessProbe.successThreshold }}
-            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
-          livenessProbe:
-            tcpSocket:
-              port: {{ .Values.service.contentPort }}
-            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
-            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
-            successThreshold: {{ .Values.livenessProbe.successThreshold }}
-            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
           volumeMounts:
           - name: quake3-content
             mountPath: /assets
@@ -112,7 +80,19 @@ spec:
           configMap:
             name: {{ .Release.Name }}-configmap
         - name: quake3-content
+        {{- if .Values.persistence.dataDir.enabled }}
+          persistentVolumeClaim:
+          {{- if .Values.persistence.dataDir.existingClaim }}
+            claimName: {{ .Values.persistence.dataDir.existingClaim }}
+          {{- else }}
+            claimName: {{ template "quake-kube.fullname" . }}-assets
+          {{- end }}
+        {{- else }}
           emptyDir: {}
+        {{- end }}
+        {{- range .Values.extraVolumes }}
+        {{- toYaml .volumes | nindent 6 }}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

@@ -2,40 +2,31 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-configmap
+  labels:
+    {{- include "quake-kube.labels" . | nindent 4 }}
 data:
   config.yaml: |
-    fragLimit: 25
-    timeLimit: 15m
+    fragLimit: {{ .Values.quakeServer.fragLimit }}
+    timeLimit: {{ .Values.quakeServer.timeLimit }}
     bot:
-      minPlayers: 2
+      minPlayers: {{ .Values.quakeServer.bot.minPlayers }}
     game:
-      motd: "Welcome to Critical Stack"
-      type: FreeForAll
-      forceRespawn: false
-      inactivity: 10m
-      quadFactor: 3
-      weaponRespawn: 3
-      singlePlayerSkill: 2
+      motd: {{ .Values.quakeServer.game.motd }}
+      type: {{ .Values.quakeServer.game.type }}
+      forceRespawn: {{ .Values.quakeServer.game.forceRespawn }}
+      inactivity: {{ .Values.quakeServer.game.inactivity }}
+      quadFactor: {{ .Values.quakeServer.game.quadFactor }}
+      weaponRespawn: {{ .Values.quakeServer.game.weaponRespawn }}
+      singlePlayerSkill: {{ .Values.quakeServer.game.singlePlayerSkill }}
     server:
-      hostname: "quakekube"
-      maxClients: 12
-      password: "changeme"
+      hostname: {{ .Values.quakeServer.server.hostname }}
+      maxClients: {{ .Values.quakeServer.server.maxClients }}
+      password: {{ .Values.quakeServer.server.password }}
     commands:
-      - addbot sarge 2
-      - addbot crash 1
+  {{- with .Values.quakeServer.commands  }}
+  {{ toYaml . | nindent 4 }}
+  {{- end }}
     maps:
-    - name: q3dm7
-      type: FreeForAll
-      timeLimit: 10m
-    - name: q3dm17
-      type: FreeForAll
-    - name: q3wctf1
-      type: CaptureTheFlag
-      captureLimit: 8
-    - name: q3tourney2
-      type: Tournament
-    - name: q3wctf3
-      type: CaptureTheFlag
-      captureLimit: 8
-    - name: ztn3tourney1
-      type: Tournament
+  {{- with .Values.quakeServer.maps  }}
+  {{ toYaml . | nindent 4 }}
+  {{- end }}
