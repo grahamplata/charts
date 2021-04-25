@@ -51,12 +51,7 @@ spec:
           - name: quake3-content
             mountPath: /assets
           resources:
-            requests:
-              memory: 256Mi
-              cpu: 250m
-            limits:
-              memory: 512Mi
-              cpu: 500m
+{{ toYaml .Values.resources | indent 12 }}
         - name: content-server
           command:
           - q3
@@ -69,12 +64,7 @@ spec:
           - name: quake3-content
             mountPath: /assets
           resources:
-            requests:
-              memory: 128Mi
-              cpu: 100m
-            limits:
-              memory: 256Mi
-              cpu: 150m
+{{ toYaml .Values.resources | indent 12 }}
       volumes:
         - name: {{ .Release.Name }}-configmap
           configMap:

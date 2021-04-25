@@ -9,6 +9,17 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
+## Configure resource requests and limits
+## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+##
+resources:
+  requests:
+    memory: 512Mi
+    cpu: 500m
+  limits:
+    memory: 750Mi
+    cpu: 750m
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
