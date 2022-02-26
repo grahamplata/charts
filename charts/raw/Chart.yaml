@@ -5,3 +5,6 @@ description: A place for all the Kubernetes resources which don't already have a
 home: https://github.com/helm/charts/blob/master/incubator/raw
 name: raw
 version: 0.2.3
+maintainers:
+  - name: grahamplata
+    email: graham.plata@gmail.com
