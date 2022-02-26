@@ -1,5 +1,6 @@
 [![Lint and Test Charts](https://github.com/grahamplata/charts/actions/workflows/lint-test-charts.yaml/badge.svg)](https://github.com/grahamplata/charts/actions/workflows/lint-test-charts.yaml)
 [![Release Charts](https://github.com/grahamplata/charts/actions/workflows/release-charts.yaml/badge.svg)](https://github.com/grahamplata/charts/actions/workflows/release-charts.yaml)
+
 # Charts
 
 This repository contains charts I tinker with.
@@ -12,3 +13,4 @@ Add the repo via:
 ## Index
 
 - [QuakeKube](/charts/quake-kube/README.md) A Kubernetes-ified version of QuakeJS
+- [Raw](/charts/raw/README.md) A place for all the Kubernetes resources which don't already have a home.
