@@ -79,4 +79,19 @@ entries:
     urls:
     - https://github.com/grahamplata/charts/releases/download/quake-kube-0.1.1/quake-kube-0.1.1.tgz
     version: 0.1.1
+  raw:
+  - apiVersion: v1
+    appVersion: 0.2.3
+    created: "2022-02-26T01:47:59.51523943Z"
+    description: A place for all the Kubernetes resources which don't already have
+      a home.
+    digest: 223a0f940cda51c66e1503ad7dbec3f477785c19085eb917a616ad77eed471e9
+    home: https://github.com/helm/charts/blob/master/incubator/raw
+    maintainers:
+    - email: graham.plata@gmail.com
+      name: grahamplata
+    name: raw
+    urls:
+    - https://github.com/grahamplata/charts/releases/download/raw-0.2.3/raw-0.2.3.tgz
+    version: 0.2.3
 generated: "2021-03-11T15:05:49.355772766Z"
